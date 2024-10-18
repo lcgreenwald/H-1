@@ -1,19 +1,19 @@
 esphome:
   name: "${name}"
-  friendly_name: Apollo AIR-1 # TODO: Rename
-  comment: Apollo AIR-1 # TODO: Rename
+  friendly_name: Apollo XMAS-1 # TODO: Rename
+  comment: Apollo XMAS-1 # TODO: Rename
   name_add_mac_suffix: true
   platformio_options:
     board_build.flash_mode: dio
 
   project:
-    name: "ApolloAutomation.AIR-1" # TODO: Rename
+    name: "ApolloAutomation.XMAS-1" # TODO: Rename
     version: "${version}"
 
   min_version: 2023.11.1
 
 dashboard_import:
-  package_import_url: github://ApolloAutomation/AIR-1/Integrations/ESPHome/AIR-1.yaml
+  package_import_url: github://ApolloAutomation/XMAS-1/Integrations/ESPHome/XMAS-1.yaml
   import_full_config: false # TODO: Rename
 
 improv_serial:
@@ -36,7 +36,7 @@ update:
   - platform: http_request
     id: firmware_update
     name: Firmware Update
-    source: https://apolloautomation.github.io/PLT-1/artifact/manifest.json # TODO: Rename
+    source: https://apolloautomation.github.io/XMAS-1/artifact/manifest.json # TODO: Rename
 
 wifi:
   on_connect:
@@ -45,7 +45,7 @@ wifi:
   on_disconnect:
     - ble.enable:
   ap:
-    ssid: "Apollo PLT1 Hotspot" # TODO: Rename
+    ssid: "Apollo XMAS1 Hotspot" # TODO: Rename
 
 logger:
 
