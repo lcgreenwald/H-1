@@ -14,7 +14,7 @@ esphome:
 
 dashboard_import:
   package_import_url: github://ApolloAutomation/XMAS-1/Integrations/ESPHome/XMAS-1.yaml
-  import_full_config: false # TODO: Rename
+  import_full_config: false
 
 improv_serial:
 
@@ -36,7 +36,7 @@ update:
   - platform: http_request
     id: firmware_update
     name: Firmware Update
-    source: https://apolloautomation.github.io/XMAS-1/artifact/manifest.json # TODO: Rename
+    source: https://apolloautomation.github.io/XMAS-1/artifact/manifest.json
 
 wifi:
   on_connect:
@@ -45,7 +45,7 @@ wifi:
   on_disconnect:
     - ble.enable:
   ap:
-    ssid: "Apollo XMAS1 Hotspot" # TODO: Rename
+    ssid: "Apollo XMAS1 Hotspot"
 
 logger:
 

@@ -1,5 +1,5 @@
 substitutions:
-  name: apollo-xmas-1 # TODO: Rename
+  name: apollo-xmas-1
   version: "24.10.18.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
 
@@ -9,6 +9,20 @@ esp32:
     type: esp-idf
 
 api:
+  services:
+    - service: play_buzzer
+      variables:
+        song_str: string
+      then:
+        - rtttl.play:
+            rtttl: !lambda 'return song_str;'
+
+output:
+  - platform: ledc
+    pin: GPIO10
+    id: buzzer
+rtttl:
+ output: buzzer
 
 globals:
   - id: cycleCounter
@@ -25,6 +39,27 @@ captive_portal:
 web_server:
   port: 80
 
+external_components:
+  - source: github://ApolloAutomation/esphome-battery-component
+    components: [max17048] #Forked OptionZero
+
+i2c:
+  sda: GPIO1
+  scl: GPIO0
+  id: bus_a
+
+deep_sleep:
+  id: deep_sleep_1
+  sleep_duration: 12h
+  run_duration: 60s
+  wakeup_pin:
+    number: GPIO4
+    allow_other_uses: true
+    inverted: true
+    mode:
+      input: true
+      pullup: true
+
 switch:
   - platform: gpio
     pin: GPIO5
@@ -32,6 +67,82 @@ switch:
     id: accessory_power
     restore_mode: ALWAYS_ON
     setup_priority: 1100
+  - platform: factory_reset
+    id: factory_reset_switch
+    internal: true
+  - platform: template
+    name: "Prevent Sleep"
+    id: prevent_sleep
+    icon: mdi:sleep
+    restore_mode: RESTORE_DEFAULT_ON
+    optimistic: true
+    entity_category: "config"
+    on_turn_on:
+      then:
+        - lambda: |- 
+            id(deep_sleep_1).prevent_deep_sleep();
+    on_turn_off:
+      then:
+        - if:
+            condition:
+              binary_sensor.is_off: ota_mode
+            then:
+              - lambda: |- 
+                  id(deep_sleep_1).allow_deep_sleep();
+button:
+  - platform: factory_reset
+    id: factory_reset_button
+    name: "Factory Reset"
+    entity_category: diagnostic
+    internal: true
+
+number:
+  - platform: template
+    name: "Brightness"
+    id: brightness
+    min_value: 0
+    max_value: 100
+    step: 1
+    restore_value: true
+    initial_value: 80
+    optimistic: true
+  - platform: template
+    name: "Run Duration"
+    id: deep_sleep_run_duration
+    min_value: 1
+    max_value: 800
+    step: 1
+    mode: box
+    update_interval: never
+    optimistic: true
+    restore_value: true
+    initial_value: 30
+    icon: "mdi:arrow-collapse-right"
+    entity_category: CONFIG
+    unit_of_measurement: "s"
+    on_value:
+      then:
+        - lambda: |-
+            id(deep_sleep_1).set_run_duration(x * 1000);
+  
+  - platform: template
+    name: "Sleep Duration"
+    id: deep_sleep_sleep_duration
+    min_value: 0
+    max_value: 800
+    step: 1
+    mode: box
+    update_interval: never
+    optimistic: true
+    restore_value: true
+    initial_value: 8
+    icon: "mdi:arrow-collapse-right"
+    entity_category: CONFIG
+    unit_of_measurement: "h"
+    on_value:
+      then:
+        - lambda: |-
+            id(deep_sleep_1).set_sleep_duration(x * 60 * 60 * 1000);
 
 light:
   - platform: esp32_rmt_led_strip
@@ -56,3 +167,138 @@ light:
           update_interval: 100ms
           min_brightness: 50%
           max_brightness: 100%
+      - addressable_twinkle:
+          name: "Twinkle"
+          twinkle_probability: 50%
+      - addressable_rainbow:
+          name: "Rainbow"
+          width: 22
+      - addressable_color_wipe:
+          name: Color Wipe Effect With Custom Values
+          colors:
+            - red: 100%
+              green: 100%
+              blue: 100%
+              num_leds: 5
+              gradient: true
+            - red: 0%
+              green: 0%
+              blue: 0%
+              num_leds: 1
+          add_led_interval: 100ms
+          reverse: false
+      - addressable_scan:
+          name: Scan Effect With Custom Values
+          move_interval: 100ms
+          scan_width: 22
+      - addressable_fireworks:
+          name: Fireworks Effect With Custom Values
+          update_interval: 32ms
+          spark_probability: 10%
+          use_random_color: false
+          fade_out_rate: 120
+
+
+
+binary_sensor:
+  - platform: status
+    name: Online
+    id: ink_ha_connected
+  - platform: homeassistant
+    name: "OTA Mode"
+    id: ota_mode
+    entity_id: input_boolean.apollo_ota_mode
+    on_press:
+      then:
+        - lambda: |- 
+            id(deep_sleep_1).prevent_deep_sleep();
+    on_release:  
+      then:
+        - if:
+            condition:
+              switch.is_off: prevent_sleep
+            then:
+              - lambda: |- 
+                  id(deep_sleep_1).allow_deep_sleep();
+  - platform: gpio
+    id: back_button
+    pin:
+      number: GPIO4
+      inverted: true
+      mode:
+        input: true
+        pullup: true
+      allow_other_uses: true
+
+    internal: true
+    #on_press:
+    #  then:
+    #    - lambda: |- 
+    #            ESP_LOGW("Apollo", "Pressed");
+    #    - switch.turn_on: accessory_power
+    #    - light.turn_on:
+    #        brightness: 100%
+    #        id: rgb_light
+    #        effect: "Rainbow"
+
+      #
+    on_multi_click:
+      #Single Click
+      - timing:
+          - ON for at most 1s
+          - OFF for at least 0.25s
+        then:
+          - switch.turn_on: accessory_power
+          - light.turn_on:
+              brightness: !lambda "return id(brightness).state;"
+              id: rgb_light
+              effect: "Rainbow"
+          - rtttl.play:
+              rtttl: "return jingle:d=4,o=5,b=125:8g,8e6,8d6,8c6,2g,8g,8e6,8d6,8c6,2a,8a,8f6,8e6,8d6,8b,8g,8b,8d6,8g.6,16g6,8f6,8d6,2e6,8g,8e6,8d6,8c6,2g,16f#,8g,8e6,8d6,8c6,2a,8a,8f6,8e6,8d6,8g6,16g6,16f#6,16g6,#16f#6,16g6,16g#6,8a.6,16g6,8e6,8d6,c6,g6,8e6,8e6,8e.6,16d#6,8e6,8e6,8e.6,16d#6,8e6,8g6,8c.6,16d6,2e6,8f6,8f6,8f.6,16f6,8f6,8e6,8e6,16e6,#16e6,8e6,8d6,8d6,8e6,2d6;"
+          - delay: 30s
+          - switch.turn_off: accessory_power
+    #
+    #  # Double Click
+    #  #  . Exposed as an event entity. To be used in automations inside Home #Assistant
+      - timing:
+          - ON for at most 1s
+          - OFF for at most 0.25s
+          - ON for at most 1s
+          - OFF for at least 0.25s
+        then:
+          - switch.turn_on: accessory_power
+          - light.turn_on:
+              brightness: !lambda "return id(brightness).state;"
+              id: rgb_light
+              effect: "Twinkle"
+          - rtttl.play:
+              rtttl: "return rudolph:d=4,o=5,b=125:8g.,16a,8p,16g.,e,c6,a,2g.,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,2g.,8g.,16a,8g.,16a,g,a,1e,8g.,16a,8p,16g.,e,c6,a,1g,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,1g,8g.,16a,8g.,16a,g,d6,1c6,a,a,c6,a,g,8e.,2g,f,a,g,8f.,1e,d,e,g,a,b,8b.,1b,c6,8p,16c6,b,a,g,8f.,2d;"
+          - delay: 30s
+          - switch.turn_off: accessory_power
+
+sensor:
+  - platform: internal_temperature
+    name: "ESP Temperature"
+    id: sys_esp_temperature
+
+  - platform: uptime
+    name: Uptime
+    id: sys_uptime
+    update_interval: 60s
+
+  - platform: wifi_signal
+    name: RSSI
+    id: wifi_signal_db
+    update_interval: 60s
+    entity_category: "diagnostic"
+  - platform: max17048
+    battery_voltage:
+      name: Battery voltage
+      id: batt_v
+    battery_level:
+      name: Battery level
+      id: batt_pct
+      filters:
+        - lambda: |
+            if (x > 100) return 100;
+            else return (x);
