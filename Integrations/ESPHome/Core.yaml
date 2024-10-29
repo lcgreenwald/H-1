@@ -129,7 +129,7 @@ text:
     restore_value: true
     mode: text
     optimistic: true
-    initial_value: "rudolph:d=4,o=5,b=125:8g.,16a,8p,16g.,e,c6,a,2g.,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,2g.,8g.,16a,8g.,16a,g,a,1e,8g.,16a,8p,16g.,e,c6,a,1g,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,1g,8g.,16a,8g.,16a,g,d6,1c6,a,a,c6,a;"
+    initial_value: "rudolph:d=4,o=5,b=125:8g.,16a,8p,16g.,e,c6,a,2g.,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,2g.,8g.,16a,8g.,16a,g,a,1e,8g.,16a,8p,16g.,e,c6,a,1g,8g.,16a,8g.,16a,g,c6,1b,8f.,16g,8p,16f.,d,b,a,1g,8g.,16a,8g.,16a,g,d6;"
   - platform: template
     name: "Song Long Click"
     id: song_3
@@ -204,12 +204,10 @@ binary_sensor:
           - script.execute: play_song_2
 
     #  # Double Click
-    #  #  . Exposed as an event entity. To be used in automations inside Home #Assistant
       - timing:
           - ON for at least 1s
         then:
           - script.execute: play_song_3
-
 
 sensor:
   - platform: internal_temperature
@@ -221,11 +219,6 @@ sensor:
     id: sys_uptime
     update_interval: 60s
 
-  - platform: wifi_signal
-    name: RSSI
-    id: wifi_signal_db
-    update_interval: 60s
-    entity_category: "diagnostic"
   - platform: max17048
     battery_voltage:
       name: Battery voltage
@@ -355,9 +348,7 @@ script:
       - switch.turn_off: accessory_power
       - if:
           condition:
-            and:
-              - binary_sensor.is_off: ota_mode
-              - switch.is_off: prevent_sleep
+            - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
                       id: deep_sleep_1
@@ -376,9 +367,7 @@ script:
       - switch.turn_off: accessory_power
       - if:
           condition:
-            and:
-              - binary_sensor.is_off: ota_mode
-              - switch.is_off: prevent_sleep
+            - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
                       id: deep_sleep_1
@@ -397,48 +386,10 @@ script:
       - switch.turn_off: accessory_power
       - if:
           condition:
-            and:
-              - binary_sensor.is_off: ota_mode
-              - switch.is_off: prevent_sleep
+            - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
                       id: deep_sleep_1
-
-  - id: statusCheck
-    then:
-      - if:
-          condition:
-            - lambda: 'return id(ink_ha_connected).state;'
-          then:
-            - logger.log: "Apollo Automation: Connected To HA"
-            - light.turn_on: 
-                id: rgb_light
-                brightness: 100%
-                red: 0%
-                green: 0%
-                blue: 100%
-          else:
-            - if:
-                condition:
-                  - wifi.connected
-                then:
-                  - logger.log: "Apollo Automation: Connected To Wifi"
-                  - light.turn_on: 
-                      id: rgb_light
-                      brightness: 100%
-                      red: 0%
-                      green: 100%
-                      blue: 0%
-                else:
-                  - logger.log: "Apollo Automation: Not Connected To Wifi"
-                  - light.turn_on: 
-                      id: rgb_light
-                      brightness: 100%
-                      red: 100%
-                      green: 100%
-                      blue: 0%
-      - delay: 5s
-      - light.turn_off: rgb_light
 
   - id: testScript
     then:
