@@ -1,6 +1,6 @@
 name: Build
 env:
-  DEVICE_NAME: plt-1 # TODO: Rename
+  DEVICE_NAME: h-1
   RELEASE_URL: ${{ github.server_url }}/${{ github.repository }}/releases/latest
 
 on:
