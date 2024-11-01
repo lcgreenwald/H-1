@@ -1,6 +1,6 @@
 substitutions:
   name: apollo-h-1
-  version: "24.10.29.1"
+  version: "24.11.1.1"
   device_description: ${name} made by Apollo Automation - version ${version}.
 
 esp32:
@@ -296,7 +296,7 @@ light:
           lambda: |-
             for (int i = 0; i < it.size(); i++) {
               // Generate a random brightness factor between 50% and 100%
-              float brightness_factor = 0.5 + (esp_random() % 51) / 90.0;
+              float brightness_factor = 0.5 + (esp_random() % 30) / 75.0;
 
               // Apply brightness to white color (255, 255, 255) for a twinkle effect
               int white_r = 255 * brightness_factor;
@@ -338,7 +338,7 @@ script:
     then:
       - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 75%
+          brightness: 50%
           id: rgb_light
           effect: "RainbowWave"
       - rtttl.play:
@@ -351,13 +351,13 @@ script:
             - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
-                      id: deep_sleep_1
+                id: deep_sleep_1
       
   - id: play_song_2
     then:
       - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 75%
+          brightness: 50%
           id: rgb_light
           effect: "TwinklingWhite"
       - rtttl.play:
@@ -370,13 +370,13 @@ script:
             - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
-                      id: deep_sleep_1
+                id: deep_sleep_1
 
   - id: play_song_3
     then:
       - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 75%
+          brightness: 50%
           id: rgb_light
           effect: "RedGreen"
       - rtttl.play:
@@ -389,7 +389,7 @@ script:
             - switch.is_off: prevent_sleep
           then:
             - deep_sleep.enter:
-                      id: deep_sleep_1
+                id: deep_sleep_1
 
   - id: testScript
     then:
