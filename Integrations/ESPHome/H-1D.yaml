@@ -38,14 +38,17 @@ esphome:
 
 safe_mode:
 
+logger:
+
 switch:
   - platform: template
     name: "Prevent Sleep"
     id: prevent_sleep
     icon: mdi:sleep
-    restore_mode: RESTORE_DEFAULT_OFF
+    restore_mode: ALWAYS_OFF
     optimistic: true
     entity_category: "config"
+    
 
 
 script:
