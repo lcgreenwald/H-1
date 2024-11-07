@@ -1,13 +1,13 @@
 esphome:
-  name: "${name}"
-  friendly_name: Apollo H-1
-  comment: Apollo H-1
+  name: "apollo-h-1d"
+  friendly_name: Apollo H-1D
+  comment: Apollo H-1D
   name_add_mac_suffix: true
   platformio_options:
     board_build.flash_mode: dio
 
   project:
-    name: "ApolloAutomation.H-1"
+    name: "ApolloAutomation.H-1D"
     version: "${version}"
 
   min_version: 2023.11.1
