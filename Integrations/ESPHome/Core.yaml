@@ -1,5 +1,5 @@
 substitutions:
-  version: "24.11.7.1"
+  version: "24.11.8.1"
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -10,6 +10,7 @@ output:
   - platform: ledc
     pin: GPIO10
     id: buzzer
+    power_supply: power_supply_1
 rtttl:
  output: buzzer
 
@@ -42,8 +43,8 @@ i2c:
 
 deep_sleep:
   id: deep_sleep_1
-  sleep_duration: 12h
-  run_duration: 60s
+  sleep_duration: 24h
+  run_duration: 90s
   wakeup_pin:
     number: GPIO4
     allow_other_uses: true
@@ -52,13 +53,11 @@ deep_sleep:
       input: true
       pullup: true
 
-switch:
-  - platform: gpio
+power_supply:
+  - id: 'power_supply_1'
     pin: GPIO5
-    name: "Accessory Power"
-    id: accessory_power
-    restore_mode: ALWAYS_ON
-    setup_priority: 1100
+
+switch:
   - platform: factory_reset
     id: factory_reset_switch
     internal: true
@@ -72,25 +71,6 @@ button:
 
 number:
   - platform: template
-    name: "Run Duration"
-    id: deep_sleep_run_duration
-    min_value: 1
-    max_value: 800
-    step: 1
-    mode: box
-    update_interval: never
-    optimistic: true
-    restore_value: true
-    initial_value: 60
-    icon: "mdi:arrow-collapse-right"
-    entity_category: CONFIG
-    unit_of_measurement: "s"
-    on_value:
-      then:
-        - lambda: |-
-            id(deep_sleep_1).set_run_duration(x * 1000);
-  
-  - platform: template
     name: "Sleep Duration"
     id: deep_sleep_sleep_duration
     min_value: 0
@@ -100,7 +80,7 @@ number:
     update_interval: never
     optimistic: true
     restore_value: true
-    initial_value: 12
+    initial_value: 24
     icon: "mdi:arrow-collapse-right"
     entity_category: CONFIG
     unit_of_measurement: "h"
@@ -240,6 +220,7 @@ light:
     chipset: WS2812
     num_leds: 22
     rgb_order: grb
+    power_supply: power_supply_1
     effects:
       - pulse:
           name: "Slow Pulse"
@@ -334,16 +315,14 @@ light:
 script:
   - id: play_song_1
     then:
-      - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 50%
+          brightness: 40%
           id: rgb_light
           effect: "RainbowWave"
       - rtttl.play:
           rtttl: !lambda 'return id(song_1).state;'
       - delay: 30s
       - light.turn_off: rgb_light
-      - switch.turn_off: accessory_power
       - if:
           condition:
             - switch.is_off: prevent_sleep
@@ -353,16 +332,14 @@ script:
       
   - id: play_song_2
     then:
-      - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 50%
+          brightness: 40%
           id: rgb_light
           effect: "TwinklingWhite"
       - rtttl.play:
           rtttl: !lambda 'return id(song_2).state;'
       - delay: 30s
       - light.turn_off: rgb_light
-      - switch.turn_off: accessory_power
       - if:
           condition:
             - switch.is_off: prevent_sleep
@@ -372,16 +349,14 @@ script:
 
   - id: play_song_3
     then:
-      - switch.turn_on: accessory_power
       - light.turn_on:
-          brightness: 50%
+          brightness: 40%
           id: rgb_light
           effect: "RedGreen"
       - rtttl.play:
           rtttl: !lambda 'return id(song_3).state;'
       - delay: 30s
       - light.turn_off: rgb_light
-      - switch.turn_off: accessory_power
       - if:
           condition:
             - switch.is_off: prevent_sleep
@@ -394,7 +369,7 @@ script:
       - lambda: "id(runTest) = false;"
       - light.turn_on:
           id: rgb_light
-          brightness: 50%
+          brightness: 40%
           red: 0%
           green: 100%
           blue: 0%
