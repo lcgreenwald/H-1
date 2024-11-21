@@ -37,6 +37,8 @@ globals:
 external_components:
   - source: github://ApolloAutomation/esphome-battery-component
     components: [max17048] #Forked OptionZero
+  - source: github://pr#7793
+    components: rtttl
 
 i2c:
   sda: GPIO1
