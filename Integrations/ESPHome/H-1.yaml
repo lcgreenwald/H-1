@@ -97,6 +97,7 @@ api:
   reboot_timeout: 0s
   on_client_connected:
     then:
+      - delay: 5s
       - if:
           condition:
             or:
