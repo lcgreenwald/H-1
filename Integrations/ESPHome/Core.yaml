@@ -1,5 +1,5 @@
 substitutions:
-  version: "24.11.7.1"
+  version: "24.11.24.1"
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -10,8 +10,11 @@ output:
   - platform: ledc
     pin: GPIO10
     id: buzzer
+    max_power: 60%
+
 rtttl:
- output: buzzer
+  id: rtttl_buzzer
+  output: buzzer
 
 globals:
   - id: cycleCounter
@@ -34,6 +37,8 @@ globals:
 external_components:
   - source: github://ApolloAutomation/esphome-battery-component
     components: [max17048] #Forked OptionZero
+  - source: github://pr#7793
+    components: rtttl
 
 i2c:
   sda: GPIO1
@@ -108,6 +113,18 @@ number:
       then:
         - lambda: |-
             id(deep_sleep_1).set_sleep_duration(x * 60 * 60 * 1000);
+
+  - platform: template
+    name: Volume
+    min_value: 0
+    max_value: 100
+    initial_value: 100
+    unit_of_measurement: "%"
+    step: 1
+    optimistic: true
+    restore_value: true
+    on_value:
+      - lambda: id(rtttl_buzzer).set_gain(pow(x / 100.0f, 3));
 
 text:
   - platform: template
