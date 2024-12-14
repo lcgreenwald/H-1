@@ -1,0 +1,19 @@
+alias: Apollo H1 RGB ON script
+sequence:
+  
+action: switch.turn_on
+  metadata: {}
+  data: {}
+  target:
+    entity_id: switch.apollo_h_1_280c78_accessory_power
+action: light.turn_on
+metadata: {}
+data:
+  brightness_pct: 20
+  rgb_color:
+0
+255
+0
+target:
+  entity_id: light.apollo_h_1_280c78_rgb_light
+description: ""
