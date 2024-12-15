@@ -179,7 +179,7 @@ script:
       - light.turn_on:
           brightness: 50%
           id: rgb_light
-          effect: "RedGreen"
+          effect: "BlueGreen"
       - rtttl.play:
           rtttl: !lambda 'return id(song_3).state;'
       - delay: 30s
