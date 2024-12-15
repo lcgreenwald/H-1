@@ -28,7 +28,7 @@ text:
     initial_value: "LetItSno:d=8,o=5,b=125:c,c,c6,c6,4a#,4a,4g,4f,2c,c,c,4g.,f,4g.,f,4e,2c,4d,d6,d6,4c6,4a#,4a,2g.,e.6,16d6,4c6,c.6,16a#,4a,a#.,16a,2f.;"
   - platform: template
     name: "Song Four Click"
-    id: !extend song_4
+    id: song_4
     icon: mdi:music-note
     entity_category: "config"
     restore_value: true
@@ -37,7 +37,7 @@ text:
     initial_value: "AwayInA:d=4,o=6,b=25:16c#5,16f#5,16f#5,32g#5,32a#5,16f#5,16f#5,32a#5,32b5,16c#6,16c#6,16d#6,8b5,32g#5,32a#5,16b5,16b5,16c#6,16a#5,16a#5,32f#5,32a#5,16g#5,16d#5,16f#5,8f5,16c#5,16f#5,16f#5,32g#5,32a#5,16f#5,16f#5,16a#5,32b5,16c#6,16c#6,16d#6,8b5,32g#5,32a#5,16b5,16b5,16c#6,16a#5,16a#5,32f#5,32a#5,16g#5,16d#5,16f5,16f#.5;"
   - platform: template
     name: "Song Five Click"
-    id: !extend song_5
+    id: song_5
     icon: mdi:music-note
     entity_category: "config"
     restore_value: true

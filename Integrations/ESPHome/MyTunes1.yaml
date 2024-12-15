@@ -31,7 +31,7 @@ text:
 
   - platform: template
     name: "Song Four Click"
-    id: !extend song_4
+    id: song_4
     icon: mdi:music-note
     entity_category: "config"
     restore_value: true
@@ -41,7 +41,7 @@ text:
 
   - platform: template
     name: "Song Five Click"
-    id: !extend song_5
+    id: song_5
     icon: mdi:music-note
     entity_category: "config"
     restore_value: true
