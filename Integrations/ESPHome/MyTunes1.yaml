@@ -134,5 +134,64 @@ binary_sensor:
         then:
           - script.execute: play_song_6
           
+script:
+  - id: play_song_4
+    then:
+      - switch.turn_on: accessory_power
+      - light.turn_on:
+          brightness: 50%
+          id: rgb_light
+          effect: "RedGreen"
+      - rtttl.play:
+          rtttl: !lambda 'return id(song_3).state;'
+      - delay: 30s
+      - light.turn_off: rgb_light
+      - switch.turn_off: accessory_power
+      - if:
+          condition:
+            - switch.is_off: prevent_sleep
+          then:
+            - deep_sleep.enter:
+                id: deep_sleep_1
+
+
+  - id: play_song_5
+    then:
+      - switch.turn_on: accessory_power
+      - light.turn_on:
+          brightness: 50%
+          id: rgb_light
+          effect: "RedGreen"
+      - rtttl.play:
+          rtttl: !lambda 'return id(song_3).state;'
+      - delay: 30s
+      - light.turn_off: rgb_light
+      - switch.turn_off: accessory_power
+      - if:
+          condition:
+            - switch.is_off: prevent_sleep
+          then:
+            - deep_sleep.enter:
+                id: deep_sleep_1
+
+
+  - id: play_song_6
+    then:
+      - switch.turn_on: accessory_power
+      - light.turn_on:
+          brightness: 50%
+          id: rgb_light
+          effect: "RedGreen"
+      - rtttl.play:
+          rtttl: !lambda 'return id(song_3).state;'
+      - delay: 30s
+      - light.turn_off: rgb_light
+      - switch.turn_off: accessory_power
+      - if:
+          condition:
+            - switch.is_off: prevent_sleep
+          then:
+            - deep_sleep.enter:
+                id: deep_sleep_1
 
 
