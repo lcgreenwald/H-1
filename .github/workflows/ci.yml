@@ -12,6 +12,7 @@ jobs:
         file: # TODO: Rename
           - Integrations/ESPHome/H-1.yaml
           - Integrations/ESPHome/H-1D.yaml
+          - Integrations/ESPHome/H-1_Minimal.yaml
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4.1.7
