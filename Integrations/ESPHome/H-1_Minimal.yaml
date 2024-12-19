@@ -1,13 +1,13 @@
 esphome:
   name: "apollo-h-1"
-  friendly_name: Apollo H-1
-  comment: Apollo H-1
+  friendly_name: Apollo H-1 Minimal
+  comment: Apollo H-1 Minimal
   name_add_mac_suffix: true
   platformio_options:
     board_build.flash_mode: dio
 
   project:
-    name: "ApolloAutomation.H-1"
+    name: "ApolloAutomation.H-1_Minimal"
     version: "${version}"
 
   min_version: 2023.11.1
@@ -41,32 +41,11 @@ dashboard_import:
 
 improv_serial:
 
-esp32_improv:
-  authorizer: none
-
 ota:
   - platform: esphome
     id: ota_esphome
-  - platform: http_request
-    id: ota_managed
-
-http_request:
-  verify_ssl: true
-
-safe_mode:
-
-update:
-  - platform: http_request
-    id: firmware_update
-    name: Firmware Update
-    source: https://apolloautomation.github.io/H-1/artifact/manifest.json
 
 wifi:
-  on_connect:
-    - delay: 5s
-    - ble.disable:
-  on_disconnect:
-    - ble.enable:
   ap:
     ssid: "Apollo H1 Hotspot"
 

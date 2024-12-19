@@ -1,5 +1,5 @@
 substitutions:
-  version: "24.11.25.1"
+  version: "24.12.19.1"
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -72,6 +72,24 @@ button:
     name: "Factory Reset"
     entity_category: diagnostic
     internal: true
+  - platform: template
+    id: btn_play_song_1
+    name: "Play Song 1"
+    on_press:
+      then:
+        - script.execute: play_song_1
+  - platform: template
+    id: btn_play_song_2
+    name: "Play Song 2"
+    on_press:
+      then:
+        - script.execute: play_song_2
+  - platform: template
+    id: btn_play_song_3
+    name: "Play Song 3"
+    on_press:
+      then:
+        - script.execute: play_song_3
 
 number:
   - platform: template
