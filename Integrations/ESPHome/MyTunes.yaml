@@ -7,7 +7,7 @@ text:
     restore_value: true
     mode: text
     optimistic: true
-    initial_value: "jingle:d=4,o=6,b=90:8a5,8a5,a5,8a5,8a5,a5,8a5,8c,8f5,8g5,a5,p,8a#5,8a#5,8a#.5,16a#5,8a#5,8a5,8a.5,16a5,8a5,8g5,8g5,8a5,g5,c,8a5,8a5,a5,8a5,8a5,a5,8a5,8c,8f5,8g5,a5,p,8a#5,8a#5,8a#.5,16a#5,8a#5,8a5,8a.5,16a5,8c,8c,8a5,8g5,f.5;"
+    initial_value: "SilentNi:d=4,o=5,b=112:g.,8a,g,2e.,g.,8a,g,2e.,2d6,d6,2b.,2c6,c6,2g.,2a,a,c6.,8b,a,g.,8a,g,2e.,2a,a,c6.,8b,a,g.,8a,g,2e.,2d6,d6,f6.,8d6,b,2c6.,2e6.,c6,g,e,g.,8f,d,2c.;"
 
   - platform: template
     name: "Song 2 Double Click"
@@ -17,7 +17,7 @@ text:
     restore_value: true
     mode: text
     optimistic: true
-    initial_value: "WeWishYo:d=4,o=5,b=200:d,g,8g,8a,8g,8f#,e,e,e,a,8a,8b,8a,8g,f#,d,d,b,8b,8c6,8b,8a,g,e,d,e,a,f#,2g,d,g,8g,8a,8g,8f#,e,e,e,a,8a,8b,8a,8g,f#,d,d,b,8b,8c6,8b,8a,g,e,d,e,a,f#,1g,d,g,g,g,2f#,f#,g,f#,e,2d,a,b,8a,8a,8g,8g,d6,d,d,e,a,f#,2g;"
+    initial_value: "snow:d=4,o=5,b=125:8c,8c,8c6,8c6,a#,a,g,f,2c,8c,8c,g.,8f,g.,8f,e,2c,d,8d6,8d6,c6,a#,a,2g.,8e.6,16d6,c6,8c.6,16a#,a,8a.,16g,2f.,c,8c6,8c6,a#,a,g,f,2c,8c.,16c,g.,8f,g.,8f,e,2c,d,8d6,8d6,c6,a#,a,2g.,8e.6,16d6,c6,8c.6,16a#,a,8a.,16g,2f.;"
 
   - platform: template
     name: "Song 3 Long Click"
@@ -27,5 +27,5 @@ text:
     restore_value: true
     mode: text
     optimistic: true
-    initial_value: "AwayInA:d=4,o=6,b=25:16c#5,16f#5,16f#5,32g#5,32a#5,16f#5,16f#5,32a#5,32b5,16c#6,16c#6,16d#6,8b5,32g#5,32a#5,16b5,16b5,16c#6,16a#5,16a#5,32f#5,32a#5,16g#5,16d#5,16f#5,8f5,16c#5,16f#5,16f#5,32g#5,32a#5,16f#5,16f#5,16a#5,32b5,16c#6,16c#6,16d#6,8b5,32g#5,32a#5,16b5,16b5,16c#6,16a#5,16a#5,32f#5,32a#5,16g#5,16d#5,16f5,16f#.5;"
+    initial_value: "carolbells:d=4,o=5,b=200:g,8f#,8g,e,g,8f#,8g,e,g,8f#,8g,e,g,8f#,8g,e,b,8a,8b,g,b,8a,8b,g,b,8a,8b,g,b,8a,8b,g,e6,8e6,8e6,8d6,8c6,b,8b,8b,8a,8g,a,8a,8a,8b,8a,e,8e,8e,e,8b4,8c#,8d#,8e,8f#,8g,8a,8b,a,g,8b4,8c#,8d#,8e,8f#,8g,8a,8b,a,g;"
 
