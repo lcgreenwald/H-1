@@ -195,4 +195,9 @@ script:
 
 
 packages:
-  core: !include Core.yaml
+  ApolloAutomation.H-1: # name of package/project
+    url: https://github.com/ApolloAutomation/H-1 # url of the repository
+    ref: main # branch, tag or commit SHA
+    files:  # Path to config from base repo URL
+      - Integrations/ESPHome/Core.yaml
+    refresh: 1min # how often to sync updates from the remote url
