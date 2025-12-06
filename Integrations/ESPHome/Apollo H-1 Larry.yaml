@@ -20,8 +20,8 @@ api:
 
 packages:
   ApolloAutomation.H-1: # name of package/project
-    url: https://github.com/lcgreenwald/H-1 # url of the repository
-#    url: https://github.com/ApolloAutomation/H-1 # url of the repository
+#    url: https://github.com/lcgreenwald/H-1 # url of the repository
+    url: https://github.com/ApolloAutomation/H-1 # url of the repository
     ref: main # branch, tag or commit SHA
     files: [Integrations/ESPHome/H-1.yaml] # Path to config from base repo URL
     refresh: 1min # how often to sync updates from the remote url
